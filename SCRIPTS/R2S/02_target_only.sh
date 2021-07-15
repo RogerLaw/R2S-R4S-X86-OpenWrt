@@ -48,14 +48,6 @@ CONFIG_DEFAULT_FULLMESH=y
 CONFIG_DEFAULT_MPTCP_PM="fullmesh"
 ' >> ./target/linux/rockchip/armv8/config-5.4
 
-# BBRv2
-sed -i '/CUBIC/d' target/linux/generic/config-5.4
-echo '
-CONFIG_TCP_CONG_BBR2=y
-CONFIG_DEFAULT_BBR2=y
-CONFIG_DEFAULT_TCP_CONG="bbr2"
-' >> ./target/linux/rockchip/armv8/config-5.4
-
 # 预配置一些插件
 cp -rf ../PATCH/files ./files
 

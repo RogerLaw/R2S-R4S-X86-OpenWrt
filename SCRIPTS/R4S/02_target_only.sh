@@ -51,23 +51,6 @@ CONFIG_DEFAULT_FULLMESH=y
 CONFIG_DEFAULT_MPTCP_PM="fullmesh"
 ' >> ./target/linux/rockchip/armv8/config-5.4
 
-# MPTCP
-echo '
-CONFIG_MPTCP=y
-CONFIG_MPTCP_PM_ADVANCED=y
-CONFIG_MPTCP_FULLMESH=y
-CONFIG_DEFAULT_FULLMESH=y
-CONFIG_DEFAULT_MPTCP_PM="fullmesh"
-' >> ./target/linux/rockchip/armv8/config-5.4
-
-# BBRv2
-sed -i '/CUBIC/d' target/linux/generic/config-5.4
-echo '
-CONFIG_TCP_CONG_BBR2=y
-CONFIG_DEFAULT_BBR2=y
-CONFIG_DEFAULT_TCP_CONG="bbr2"
-' >> ./target/linux/rockchip/armv8/config-5.4
-
 #Vermagic
 latest_version="$(curl -s https://github.com/openwrt/openwrt/releases |grep -Eo "v[0-9\.]+\-*r*c*[0-9]*.tar.gz" |sed -n '/21/p' |sed -n 1p |sed 's/v//g' |sed 's/.tar.gz//g')"
 wget https://downloads.openwrt.org/releases/${latest_version}/targets/rockchip/armv8/packages/Packages.gz
