@@ -41,6 +41,7 @@ CONFIG_CRYPTO_SHA256=y
 # BBRv2
 wget -P target/linux/generic/hack-5.4/ https://github.com/Ysurac/openmptcprouter/raw/develop/root/target/linux/generic/hack-5.4/692-tcp_nanqinlang.patch
 wget -P target/linux/generic/hack-5.4/ https://github.com/Ysurac/openmptcprouter/raw/develop/root/target/linux/generic/hack-5.4/693-tcp_bbr2.patch
+wget https://github.com/google/bbr/commit/3d76056.patch -O target/linux/generic/hack-5.4/694-tcp_bbr2.patch
 wget -qO - https://github.com/Ysurac/openmptcprouter/raw/develop/patches/nanqinlang.patch | patch -p1
 wget -qO - https://github.com/Ysurac/openmptcprouter/raw/develop/patches/bbr2.patch | patch -p1
 
@@ -240,7 +241,7 @@ svn co https://github.com/xiaorouji/openwrt-passwall/trunk/luci-app-passwall pac
 sed -i 's,default n,default y,g' package/new/luci-app-passwall/Makefile
 sed -i '/V2ray:v2ray/d' package/new/luci-app-passwall/Makefile
 sed -i '/plugin:v2ray/d' package/new/luci-app-passwall/Makefile
-sed -i '/Proxy:naive/d' package/new/luci-app-passwall/Makefile
+#sed -i '/Proxy:naive/d' package/new/luci-app-passwall/Makefile
 wget -P package/new/luci-app-passwall/ https://github.com/QiuSimons/OpenWrt-Add/raw/master/move_2_services.sh
 chmod -R 755 ./package/new/luci-app-passwall/move_2_services.sh
 pushd package/new/luci-app-passwall
@@ -308,14 +309,11 @@ sed -i 's,default n,default y,g' Makefile
 sed -i 's,Xray:xray ,Xray:xray-core ,g' Makefile
 sed -i '/V2ray:v2ray/d' Makefile
 sed -i '/plugin:v2ray/d' Makefile
-sed -i '/Proxy:naive/d' Makefile
+#sed -i '/Proxy:naive/d' Makefile
 sed -i '/result.encrypt_method/a\result.fast_open = "1"' root/usr/share/shadowsocksr/subscribe.lua
 sed -i 's,ispip.clang.cn/all_cn,cdn.jsdelivr.net/gh/QiuSimons/Chnroute@master/dist/chnroute/chnroute,' root/etc/init.d/shadowsocksr
 sed -i 's,YW5vbnltb3Vz/domain-list-community/release/gfwlist.txt,Loyalsoldier/v2ray-rules-dat/release/gfw.txt,' root/etc/init.d/shadowsocksr
 sed -i '/Clang.CN.CIDR/a\o:value("https://cdn.jsdelivr.net/gh/QiuSimons/Chnroute@master/dist/chnroute/chnroute.txt", translate("QiuSimons/Chnroute"))' luasrc/model/cbi/shadowsocksr/advanced.lua
-
-sed -i 's/443 -j RETURN/443 -j DROP/' root/usr/bin/ssr-rules
-sed -i 's/80 -j RETURN/80 -j DROP/' root/usr/bin/ssr-rules
 
 popd
 # 订阅转换
@@ -326,12 +324,8 @@ ln -sf ../../../feeds/packages/libs/jpcre2 ./package/feeds/packages/jpcre2
 svn co https://github.com/immortalwrt/packages/trunk/libs/rapidjson feeds/packages/libs/rapidjson
 ln -sf ../../../feeds/packages/libs/rapidjson ./package/feeds/packages/rapidjson
 svn co https://github.com/immortalwrt/packages/trunk/libs/libcron feeds/packages/libs/libcron
-mkdir feeds/packages/libs/libcron/patches
-wget -P feeds/packages/libs/libcron/patches/ https://github.com/QiuSimons/libcron/commit/432fb6f.patch
 ln -sf ../../../feeds/packages/libs/libcron ./package/feeds/packages/libcron
 svn co https://github.com/immortalwrt/packages/trunk/libs/quickjspp feeds/packages/libs/quickjspp
-mkdir feeds/packages/libs/quickjspp/patches
-wget -P feeds/packages/libs/quickjspp/patches/ https://github.com/QiuSimons/quickjspp/commit/4cb20c1.patch
 ln -sf ../../../feeds/packages/libs/quickjspp ./package/feeds/packages/quickjspp
 # 网易云音乐解锁
 git clone --depth 1 https://github.com/immortalwrt/luci-app-unblockneteasemusic.git package/new/UnblockNeteaseMusic
